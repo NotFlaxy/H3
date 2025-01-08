@@ -1,22 +1,17 @@
 import sys
-import json
+import logging
 import paramiko
+import json
 from getpass import getpass
 
 # Inlæser config filen.
 with open('.\ssh\config.json', 'r') as config_file:
     config = json.load(config_file)
 
-# Initializer og indlæs values.
 def Main():
     try:
-        local_script = input("Navn på skript du vil execute: ")
-        if local_script == "":
-            local_script = config["DefaultScript"]
-            remote_script = "C:\\TMP\\script.py"
-        else:
-            local_script = ".\\SSH\\" + local_script
-            remote_script = "C:\\TMP\\" + local_script  
+        local_script = "HardwareInfo\\InfoGather.py"
+        remote_script = "C:\\TMP\\Hwinfo.py"  
         ip_address = input("Server-IP: ")
         if ip_address == "":
             ip_address = config["SSH"]["ip-address"]
@@ -30,8 +25,8 @@ def Main():
     except Exception as e:
         print(f"An unexpected error has occured {e}")
 
+# Initialize SSH Connection and transfer + execute script.
 def SSH(local_script, remote_script, ip_address, username, password):
-    # Initialize SSH Connection.
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
@@ -82,17 +77,6 @@ def SSH(local_script, remote_script, ip_address, username, password):
     finally:
         ssh.close()
 
-def getHelp():
-    arg = sys.argv[1].lower()
-    if arg == '-help' or arg == '-h':
-        print('Hello this is the help function of my script.')
-    else:
-        print('This is not a vlid argument. Use -help or -h')
-
-# Exectuion af functions of implementering af help function.
-length = len(sys.argv)
-if length == 1:
-    Main()
-    print("The script has reached the end")
-else:
-    getHelp()
+# Logging setup function
+def loggingSetup():
+    logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s - %(message)s')
