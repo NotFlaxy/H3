@@ -5,11 +5,11 @@ import logging
 from ldap3 import Server, Connection, ALL, MODIFY_REPLACE
 
 # Configuration
-AD_SERVER = 'ldap://10.108.162.64'
+AD_SERVER = 'ldap://10.108.162.69'
 AD_USER = 'CN=Administrator,CN=Users,DC=monkey,DC=local'  # Change as per your domain
 AD_PASSWORD = 'Kode1234!'  # Administrator's password
 BASE_DN = 'CN=Users,DC=monkey,DC=local'  # Change as per your domain
-LOG_FILE = 'ad_user_log.txt'
+LOG_FILE = 'UserCreation(LDAP)\\ad_user_log.txt'
 
 # Logging setup
 logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s - %(message)s')
@@ -52,8 +52,8 @@ def add_user_to_ad(connection, username, first_name, last_name, full_name, initi
         raise Exception(f"Failed to add user {username}: {connection.result['message']}")
 
     # Enable account and set password
-    connection.modify(dn, {'userAccountControl': [(MODIFY_REPLACE, [512])]})  # Enable account
     connection.extend.microsoft.modify_password(dn, password)
+    connection.modify(dn, {'userAccountControl': [(MODIFY_REPLACE, [512])]})  # Enable account
     return True
 
 # Main function
@@ -63,7 +63,7 @@ def main():
     conn = Connection(server, user=AD_USER, password=AD_PASSWORD, auto_bind=True)
 
     # Read users from the CSV file
-    with open('users.csv', 'r') as csvfile:
+    with open('.\\UserCreation(LDAP)\\users.csv', 'r') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             first_name = row['FirstName']
