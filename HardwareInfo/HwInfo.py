@@ -5,7 +5,7 @@ import json
 from getpass import getpass
 
 # Inlæser config filen.
-with open('.\ssh\config.json', 'r') as config_file:
+with open('.\\HardwareInfo\\config.json', 'r') as config_file:
     config = json.load(config_file)
 
 def Main():
@@ -56,14 +56,21 @@ def SSH(local_script, remote_script, ip_address, username, password):
         finally:
             sftp.close()
 
+        # Fetch the hostname of the remote machine and save to variable.
+        stdin, stdout, stderr = ssh.exec_command("hostname")
+        hostName = stdout.read().decode().strip()
+        LOG_FILE = f".\\HardwareInfo\\{hostName}.txt"
+
         # Execute the remote script.
         stdin, stdout, stderr = ssh.exec_command(f"py {remote_script}")
         
+        # Output of the execution and Error output.
         try:
-            # Output of the execution and Error output.
+            LOG = open(LOG_FILE, "w", newline="")
             generalOutput = stdout.read().decode().strip()
             if generalOutput:
-                print("\nOutput:\n" + generalOutput + "\n")
+                LOG.write(generalOutput)
+                LOG.close()
             errorOutput = stderr.read().decode().strip()
             if errorOutput:
                 print("\nError Output:" + errorOutput + "\n")
@@ -77,6 +84,17 @@ def SSH(local_script, remote_script, ip_address, username, password):
     finally:
         ssh.close()
 
-# Logging setup function
-def loggingSetup():
-    logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s - %(message)s')
+def getHelp():
+    arg = sys.argv[1].lower()
+    if arg == '-help' or arg == '-h':
+        print('Hello this is the help function of my script.')
+    else:
+        print('This is not a vlid argument. Use -help or -h')
+
+# Exectuion af functions of implementering af help function.
+length = len(sys.argv)
+if length == 1:
+    Main()
+    print("The script has reached the end")
+else:
+    getHelp()
