@@ -1,5 +1,6 @@
 import json
 import paramiko
+from getpass import getpass
 
 # Inlæser config filen.
 with open('.\ssh\config.json', 'r') as config_file:
@@ -21,7 +22,7 @@ def Main():
         username = input("Username: ")
         if username == "":
             username = config["SSH"]["username"]
-        password = input("Password: ")
+        password = getpass("Password: ")
         if password == "":
             password = config["SSH"]["password"]
         SSH(local_script, remote_script, ip_address, username, password)
