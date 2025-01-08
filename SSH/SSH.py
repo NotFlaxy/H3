@@ -1,3 +1,4 @@
+import sys
 import json
 import paramiko
 from getpass import getpass
@@ -81,5 +82,17 @@ def SSH(local_script, remote_script, ip_address, username, password):
     finally:
         ssh.close()
 
-Main()
-print("The script has reached the end")
+def getHelp():
+    arg = sys.argv[1].lower()
+    if arg == '-help' or arg == '-h':
+        print('Hello this is the help function of my scipt.')
+    else:
+        print('This is not a vlid argument. Use -help or -h')
+
+# Exectuion af functions of implementering af help function.
+length = len(sys.argv)
+if length == 1:
+    Main()
+    print("The script has reached the end")
+else:
+    getHelp()
