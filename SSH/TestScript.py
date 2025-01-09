@@ -1,4 +1,4 @@
-def echo_message():
+def message():
     print("Hello World")
 
-echo_message()
+message()
