@@ -1,11 +1,17 @@
 import sys
 import json
 import paramiko
+import logging
 from getpass import getpass
+
+LOG_FILE = "SSH\\log.txt"
 
 # Inlæser config filen.
 with open('.\ssh\config.json', 'r') as config_file:
     config = json.load(config_file)
+
+# Logging setup
+logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s - %(message)s')
 
 # Initializer og indlæs values.
 def Main():
@@ -59,10 +65,12 @@ def SSH(local_script, remote_script, ip_address, username, password):
             print(f"Error during file transfer: {e}")
             return
         finally:
+            logging.info(f"Script: {local_script}, has been transferred to remote location as: {remote_script}")
             sftp.close()
 
         # Execute the remote script.
         stdin, stdout, stderr = ssh.exec_command(f"py {remote_script}")
+        logging.info(f"Remote script: {remote_script}, has been executed on remote machine with ip address: {ip_address}.")
         
         try:
             # Output of the execution and Error output.
@@ -80,6 +88,7 @@ def SSH(local_script, remote_script, ip_address, username, password):
     except Exception as e:
         print(f"An error occured during the removal of {remote_script}: {e}")
     finally:
+        logging.info(f"Cleanup has been performed on remote machine and remote script has been deleted.")
         ssh.close()
 
 def getHelp():

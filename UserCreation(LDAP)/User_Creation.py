@@ -5,10 +5,10 @@ import logging
 from ldap3 import Server, Connection, ALL, MODIFY_REPLACE
 
 # Configuration
-AD_SERVER = 'ldap://10.108.162.69'
-AD_USER = 'CN=Administrator,CN=Users,DC=monkey,DC=local'  # Change as per your domain
-AD_PASSWORD = 'Kode1234!'  # Administrator's password
-BASE_DN = 'CN=Users,DC=monkey,DC=local'  # Change as per your domain
+AD_SERVER = 'ldap://10.108.162.64'
+AD_USER = 'CN=Administrator,CN=Users,DC=monkey,DC=local'
+AD_PASSWORD = 'Kode1234!'
+BASE_DN = 'CN=Users,DC=monkey,DC=local'
 LOG_FILE = 'UserCreation(LDAP)\\ad_user_log.txt'
 
 # Logging setup

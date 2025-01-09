@@ -37,11 +37,11 @@ def gatherSystemInfo():
             print(f"Could not access disk {partition.device}: {e}")
 
     # Network I/O
-        net_io = psutil.net_io_counters()
-        print("\nNetwork Resources:")
-        print(f"Bytes Sent: {net_io.bytes_sent / (1024 ** 2):.2f} MB")
-        print(f"Bytes Received: {net_io.bytes_recv / (1024 ** 2):.2f} MB")
+    net_io = psutil.net_io_counters()
+    print("\nNetwork Resources:")
+    print(f"Bytes Sent: {net_io.bytes_sent / (1024 ** 2):.2f} MB")
+    print(f"Bytes Received: {net_io.bytes_recv / (1024 ** 2):.2f} MB")
 
-        print("\nEnd of system resource log.")
+    print("\nEnd of system resource log.")
 
 gatherSystemInfo()
