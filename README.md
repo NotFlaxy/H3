@@ -7,7 +7,6 @@
 
 - ⚡ Fun fact **Giraffes are 30 times more likely to get hit by lightning than people...**
 
-<h3 align="left">Connect with me:</h3>
 <p align="left">
 </p>
 
